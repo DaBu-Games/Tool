@@ -1,0 +1,67 @@
+[gd_scene load_steps=2 format=3 uid="uid://m7utjirtdlvm"]
+
+[ext_resource type="Script" uid="uid://ccj6mxk21lkj2" path="res://SaveFile.cs" id="1_f6vxs"]
+
+[node name="ToolScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ToolUI" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ToolUI"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ColorRect" type="ColorRect" parent="ToolUI/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0.9712892, 0.74986595, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ToolUI/HBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ToolUI/HBoxContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="Button" type="Button" parent="ToolUI/HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Save"
+
+[node name="Button2" type="Button" parent="ToolUI/HBoxContainer/ColorRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Load
+"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+oversampling_override = 1.0
+initial_position = 2
+visible = true
+access = 2
+script = ExtResource("1_f6vxs")
