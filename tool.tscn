@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://m7utjirtdlvm"]
+[gd_scene load_steps=5 format=3 uid="uid://m7utjirtdlvm"]
 
-[ext_resource type="Script" uid="uid://ccj6mxk21lkj2" path="res://scripts/SaveFile.cs" id="1_f6vxs"]
+[ext_resource type="Script" uid="uid://ov8yceev3kp7" path="res://scripts/SaveFileDialog.cs" id="1_3gk12"]
+[ext_resource type="Script" uid="uid://cptohvvn60yfp" path="res://scripts/ToolManager.cs" id="1_n5j8b"]
+[ext_resource type="Script" uid="uid://dlt4kghu46grt" path="res://scripts/LoadFileDialog.cs" id="2_n5j8b"]
+[ext_resource type="Script" uid="uid://duq7j6b3a7onr" path="res://scripts/FileStrategy/FileStrategyManager.cs" id="4_m650i"]
 
 [node name="ToolScene" type="Control"]
 layout_mode = 3
@@ -9,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_n5j8b")
 
 [node name="ToolUI" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -59,13 +63,32 @@ theme_override_font_sizes/font_size = 34
 text = "Load
 "
 
-[node name="FileDialog" type="FileDialog" parent="."]
+[node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_toolManager", "_fileStrategyManager")]
 oversampling_override = 1.0
 initial_position = 2
 access = 2
-filters = PackedStringArray("*.svg")
+filters = PackedStringArray("*.txt")
 use_native_dialog = true
-script = ExtResource("1_f6vxs")
+script = ExtResource("1_3gk12")
+_toolManager = NodePath("..")
+_fileStrategyManager = NodePath("../FileStrategyManager")
 
-[connection signal="button_down" from="ToolUI/HBoxContainer/ColorRect/MarginContainer/VBoxContainer/Save" to="FileDialog" method="ShowWindow"]
-[connection signal="file_selected" from="FileDialog" to="FileDialog" method="Save"]
+[node name="LoadFile" type="FileDialog" parent="." node_paths=PackedStringArray("_toolManager", "_fileStrategyManager")]
+oversampling_override = 1.0
+title = "Open a File"
+initial_position = 2
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.txt")
+use_native_dialog = true
+script = ExtResource("2_n5j8b")
+_toolManager = NodePath("..")
+_fileStrategyManager = NodePath("../FileStrategyManager")
+
+[node name="FileStrategyManager" type="Node" parent="."]
+script = ExtResource("4_m650i")
+
+[connection signal="button_down" from="ToolUI/HBoxContainer/ColorRect/MarginContainer/VBoxContainer/Save" to="SaveFile" method="ShowWindow"]
+[connection signal="button_down" from="ToolUI/HBoxContainer/ColorRect/MarginContainer/VBoxContainer/Load" to="LoadFile" method="ShowWindow"]
+[connection signal="file_selected" from="SaveFile" to="SaveFile" method="Save"]
+[connection signal="file_selected" from="LoadFile" to="LoadFile" method="Load"]
