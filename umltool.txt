@@ -1,0 +1,135 @@
+@startuml
+
+' ============================
+' State Machine
+' ============================
+
+class StateMachine {
+    - IState currentState
+    + void SetState(IState state)
+    + void Update(float delta)
+    + void HandleInput(InputEvent e)
+}
+
+interface IState {
+    + Enter()
+    + Exit()
+    + Update(float delta)
+    + HandleInput(InputEvent e)
+}
+
+class DrawingState
+class ErasingState
+class GeneratingState
+
+DrawingState --|> IState
+ErasingState --|> IState
+GeneratingState --|> IState
+
+StateMachine --> IState
+
+
+' ============================
+' Command Pattern
+' ============================
+
+interface ICommand {
+    + Execute()
+    + Undo()
+}
+
+class AddStrokeCommand
+class EraseStrokeCommand
+class MoveLayerCommand
+
+AddStrokeCommand --|> ICommand
+EraseStrokeCommand --|> ICommand
+MoveLayerCommand --|> ICommand
+
+class CommandHistory {
+    - Stack<ICommand> undoStack
+    - Stack<ICommand> redoStack
+    + ExecuteCommand(ICommand cmd)
+    + Undo()
+    + Redo()
+}
+
+CommandHistory --> ICommand
+
+StateMachine --> ToolManager
+
+' ============================
+' Godot Runtime Classes
+' ============================
+
+class Node2D
+
+class DrawingLayer {
+    - List<Stroke> Strokes
+}
+
+DrawingLayer --|> Node2D
+
+
+' ============================
+' Tool Manager + Layers
+' ============================
+
+class ToolManager {
+    - Drawing drawing
+    - CommandHistory history
+    - int version
+    + Drawing GetDrawing()
+    + void SetDrawing(Drawing drawing)
+}
+
+ToolManager --> CommandHistory
+
+' ============================
+' Drawing Data Structure
+' ============================
+
+class Drawing {
+    - List<DrawingLayer> Layers
+}
+
+class Stroke {
+    - List<Vector2> Points
+    - float Thickness
+    - Color Color
+}
+
+Drawing *-- DrawingLayer
+DrawingLayer *-- Stroke
+
+
+' ============================
+' File Strategy Manager + IO
+' ============================
+
+class FileStrategyManager {
+    - dictionary<string, IFileSaveStrategy> saveStrategies
+    - dictionary<string, List<IFileLoadStrategy>> loadStrategies
+}
+
+interface IFileSaveStrategy {
+    - string fileType
+}
+
+interface IFileLoadStrategy {
+    - string fileType
+}
+
+class SVGSaveStrategy
+class SVGLoadStrategy
+
+FileStrategyManager --> IFileSaveStrategy
+FileStrategyManager --> IFileLoadStrategy
+
+SVGSaveStrategy --up|> IFileSaveStrategy
+SVGLoadStrategy --up|> IFileLoadStrategy
+
+FileStrategyManager --> Drawing
+ToolManager --> Drawing
+
+@enduml
