@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class ToolManager : Node
+public partial class CanvasManager : Node
 {
     private DrawingData drawingData = new DrawingData();
     

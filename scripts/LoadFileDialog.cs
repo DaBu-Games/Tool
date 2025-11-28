@@ -3,7 +3,7 @@ using System;
 
 public partial class LoadFileDialog : FileDialog
 {
-    [Export] private ToolManager _toolManager;
+    [Export] private CanvasManager _canvasManager;
     [Export] private FileStrategyManager _fileStrategyManager;
 
     private void ShowWindow()
@@ -16,6 +16,6 @@ public partial class LoadFileDialog : FileDialog
         DrawingData data = _fileStrategyManager.LoadFile(path);
         
         if(data != null)
-            _toolManager.SetDrawingData(data);
+            _canvasManager.SetDrawingData(data);
     }
 }

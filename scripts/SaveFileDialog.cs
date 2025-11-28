@@ -3,17 +3,17 @@ using System;
 
 public partial class SaveFileDialog : FileDialog
 {
-    [Export] private ToolManager _toolManager;
+    [Export] private CanvasManager _canvasManager;
     [Export] private FileStrategyManager _fileStrategyManager;
 
     private void ShowWindow()
     {
-        this.Show();
+        Show();
     }
 
     private void Save(string filePath)
     {
-        DrawingData data = _toolManager.GetDrawingData();
+        DrawingData data = _canvasManager.GetDrawingData();
         _fileStrategyManager.SaveFile(filePath, data);
     }
 }

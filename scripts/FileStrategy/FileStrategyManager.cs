@@ -12,10 +12,10 @@ public partial class FileStrategyManager : Node
 
     public override void _Ready()
     {
-        // version 1
-            //save
-            RegisterSaveStrategy(new Version1.TxtSaveStrategy());
+        //save
+            RegisterSaveStrategy(new TxtSaveStrategy());
             
+        // version 1   
             //load
             RegisterLoadStrategy(new Version1.TxtLoadStrategy());
     }

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://m7utjirtdlvm"]
 
 [ext_resource type="Script" uid="uid://ov8yceev3kp7" path="res://scripts/SaveFileDialog.cs" id="1_3gk12"]
-[ext_resource type="Script" uid="uid://cptohvvn60yfp" path="res://scripts/ToolManager.cs" id="1_n5j8b"]
+[ext_resource type="Script" uid="uid://b60yd8jlabvjw" path="res://scripts/CanvasManager.cs" id="1_m650i"]
 [ext_resource type="Script" uid="uid://dlt4kghu46grt" path="res://scripts/LoadFileDialog.cs" id="2_n5j8b"]
 [ext_resource type="Script" uid="uid://duq7j6b3a7onr" path="res://scripts/FileStrategy/FileStrategyManager.cs" id="4_m650i"]
 
@@ -12,7 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_n5j8b")
+script = ExtResource("1_m650i")
 
 [node name="ToolUI" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -63,17 +63,17 @@ theme_override_font_sizes/font_size = 34
 text = "Load
 "
 
-[node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_toolManager", "_fileStrategyManager")]
+[node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_canvasManager", "_fileStrategyManager")]
 oversampling_override = 1.0
 initial_position = 2
 access = 2
-filters = PackedStringArray("*.txt")
+filters = PackedStringArray("*.txt", "*.svg")
 use_native_dialog = true
 script = ExtResource("1_3gk12")
-_toolManager = NodePath("..")
+_canvasManager = NodePath("..")
 _fileStrategyManager = NodePath("../FileStrategyManager")
 
-[node name="LoadFile" type="FileDialog" parent="." node_paths=PackedStringArray("_toolManager", "_fileStrategyManager")]
+[node name="LoadFile" type="FileDialog" parent="." node_paths=PackedStringArray("_canvasManager", "_fileStrategyManager")]
 oversampling_override = 1.0
 title = "Open a File"
 initial_position = 2
@@ -82,7 +82,7 @@ access = 2
 filters = PackedStringArray("*.txt")
 use_native_dialog = true
 script = ExtResource("2_n5j8b")
-_toolManager = NodePath("..")
+_canvasManager = NodePath("..")
 _fileStrategyManager = NodePath("../FileStrategyManager")
 
 [node name="FileStrategyManager" type="Node" parent="."]
