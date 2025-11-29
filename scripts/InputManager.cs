@@ -3,34 +3,29 @@ using Godot;
 
 public partial class InputManager : Node
 {
-    public event Action<Vector2> OnMouseDown;
-    public event Action<Vector2> OnMouseUp;
-    public event Action<Vector2> OnMouseMove;
+    public event Action<Vector2> OnMouseDownCanvas;
+    public event Action<Vector2> OnMouseUpCanvas;
+    public event Action<Vector2> OnMouseMoveCanvas;
 
     public event Action OnUndo;
     public event Action OnRedo;
 
     public override void _Input(InputEvent e)
     {
-        if (e is InputEventMouseButton mb)
+        if (Input.IsKeyPressed(Key.Ctrl) && Input.IsKeyPressed(Key.Z))
         {
-            if (mb.ButtonIndex == MouseButton.Left)
+            if (Input.IsKeyPressed(Key.Shift))
             {
-                if (mb.Pressed)
-                    OnMouseDown?.Invoke(mb.Position);
-                else
-                    OnMouseUp?.Invoke(mb.Position);
+                OnRedo?.Invoke();
+            }
+            else
+            {
+                OnUndo?.Invoke();
             }
         }
-
-        if (e is InputEventMouseMotion mm)
-            OnMouseMove?.Invoke(mm.Position);
-
-        // Undo / Redo
-        //if (Input.IsKeyPressed(Key.Control) && Input.IsKeyPressed(Key.Z))
-            //OnUndo?.Invoke();
-
-        //if (Input.IsKeyPressed(Key.Control) && Input.IsKeyPressed(Key.Y))
-            //OnRedo?.Invoke();
     }
+    
+    public void NotifyCanvasMouseDown(Vector2 pos) => OnMouseDownCanvas?.Invoke(pos);
+    public void NotifyCanvasMouseUp(Vector2 pos) => OnMouseUpCanvas?.Invoke(pos);
+    public void NotifyCanvasMouseMove(Vector2 pos) => OnMouseMoveCanvas?.Invoke(pos);
 }

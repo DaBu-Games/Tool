@@ -13,10 +13,10 @@ namespace Version1
             {
                 FileAccess file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
                 DrawingData drawingData = new DrawingData();
-                drawingData.SetData(file.GetAsText());
+                //drawingData.SetDrawingData(file.GetAsText());
                 file.Close();
             
-                return drawingData; 
+                return null; 
             }
             else
             {

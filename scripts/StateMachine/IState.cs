@@ -1,7 +1,6 @@
 
-
 public interface IState
 {
-    void OnEnter();
+    void OnEnter(StateMachine stateMachine);
     void OnExit();
 }
