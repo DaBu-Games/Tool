@@ -15,9 +15,9 @@ public class DrawingData
         _drawingLayers = drawingLayers;
     }
 
-    public void AddDrawingLayer()
+    public void AddDrawingLayer(Vector2 canvasSize)
     {
-        _drawingLayers.Add(new DrawingLayer());
+        _drawingLayers.Add(new DrawingLayer(canvasSize));
     }
 
     public void AddStroke(Stroke stroke)

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public partial class CanvasManager : Control
 {
     [Export] private float _currentWidth; 
+    [Export] private float _currentEraseRadius;
     [Export] private Color _currentColor;
     private Stroke _activeStroke;
     
@@ -18,7 +19,7 @@ public partial class CanvasManager : Control
     public override void _Ready()
     {
         MouseFilter = MouseFilterEnum.Stop;
-        DrawingData.AddDrawingLayer();
+        DrawingData.AddDrawingLayer(this.Size);
         DrawingData.OnChanged += QueueRedraw;
         
         InputManager.OnUndo += CommandHistory.Undo;
