@@ -6,26 +6,26 @@ public partial class CanvasManager : Control
 {
     [Export] private float _currentWidth; 
     [Export] private Color _currentColor;
-    private DrawingData _drawingData = new DrawingData();
-    private int _layerIndex = 0;
     private Stroke _activeStroke;
     
     [Export] public InputManager InputManager { get; private set; }
+    public CommandHistory CommandHistory { get; private set; } = new CommandHistory();
+    public DrawingData DrawingData { get; private set; } = new DrawingData();
     
     public float GetCurrentWidth() => _currentWidth;
     public Color GetCurrentColor() => _currentColor;
     
-    public DrawingData GetDrawingData() => _drawingData;
-    
-
-    #region Input
-
     public override void _Ready()
     {
         MouseFilter = MouseFilterEnum.Stop;
+        DrawingData.AddDrawingLayer();
+        DrawingData.OnChanged += QueueRedraw;
         
-        _drawingData.AddDrawingLayer();
+        InputManager.OnUndo += CommandHistory.Undo;
+        InputManager.OnRedo += CommandHistory.Redo;
     }
+
+    #region Input
     
     public override void _GuiInput(InputEvent @event)
     {
@@ -52,7 +52,7 @@ public partial class CanvasManager : Control
 
     public override void _Draw()
     {
-        foreach (var stroke in _drawingData.GetStrokes(_layerIndex))
+        foreach (var stroke in DrawingData.GetStrokes())
         {
             DrawStroke(stroke);
         }
@@ -72,24 +72,14 @@ public partial class CanvasManager : Control
 
     public void SetDrawingData(DrawingData data)
     {
-        _drawingData = data;
+        DrawingData = data;
         QueueRedraw();
-    }
-
-    public void SetLayerIndex(int layerIndex)
-    {
-        _layerIndex = layerIndex;
     }
 
     public void SetActiveStroke(Stroke stroke)
     {
         _activeStroke = stroke;
-        QueueRedraw();
     }
-
-    public void AddStroke(Stroke stroke)
-    {
-        _drawingData.AddStroke(stroke, _layerIndex);
-    }
+    
     #endregion
 }

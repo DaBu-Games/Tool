@@ -10,17 +10,20 @@ public partial class InputManager : Node
     public event Action OnUndo;
     public event Action OnRedo;
 
-    public override void _Input(InputEvent e)
+    public override void _UnhandledKeyInput(InputEvent @event)
     {
-        if (Input.IsKeyPressed(Key.Ctrl) && Input.IsKeyPressed(Key.Z))
+        if (@event is InputEventKey e && e.Pressed)
         {
-            if (Input.IsKeyPressed(Key.Shift))
+            if (e.CtrlPressed && e.Keycode == Key.Z)
             {
-                OnRedo?.Invoke();
-            }
-            else
-            {
-                OnUndo?.Invoke();
+                if (e.ShiftPressed)
+                {
+                    OnRedo?.Invoke();
+                }
+                else
+                {
+                    OnUndo?.Invoke();
+                }
             }
         }
     }

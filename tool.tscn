@@ -73,17 +73,16 @@ _currentWidth = 2.0
 _currentColor = Color(1, 1, 1, 1)
 InputManager = NodePath("../../Inputmanager")
 
-[node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_canvasManager", "_fileStrategyManager")]
+[node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_fileStrategyManager")]
 oversampling_override = 1.0
 initial_position = 2
 access = 2
 filters = PackedStringArray("*.txt", "*.svg")
 use_native_dialog = true
 script = ExtResource("1_3gk12")
-_canvasManager = NodePath("")
 _fileStrategyManager = NodePath("../FileStrategyManager")
 
-[node name="LoadFile" type="FileDialog" parent="." node_paths=PackedStringArray("_canvasManager", "_fileStrategyManager")]
+[node name="LoadFile" type="FileDialog" parent="." node_paths=PackedStringArray("_fileStrategyManager")]
 oversampling_override = 1.0
 title = "Open a File"
 initial_position = 2
@@ -92,7 +91,6 @@ access = 2
 filters = PackedStringArray("*.txt")
 use_native_dialog = true
 script = ExtResource("2_n5j8b")
-_canvasManager = NodePath("")
 _fileStrategyManager = NodePath("../FileStrategyManager")
 
 [node name="FileStrategyManager" type="Node" parent="."]

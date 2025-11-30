@@ -13,7 +13,7 @@ public partial class SaveFileDialog : FileDialog
 
     private void Save(string filePath)
     {
-        DrawingData data = _canvasManager.GetDrawingData();
+        DrawingData data = _canvasManager.DrawingData;
         _fileStrategyManager.SaveFile(filePath, data);
     }
 }

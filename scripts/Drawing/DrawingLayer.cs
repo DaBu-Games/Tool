@@ -11,4 +11,9 @@ public class DrawingLayer
     {
         _strokes.Add(stroke);
     }
+
+    public void RemoveStroke(Stroke stroke)
+    {
+        _strokes.Remove(stroke);
+    }
 }

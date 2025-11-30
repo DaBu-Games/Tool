@@ -39,7 +39,9 @@ public class DrawState : IState
             return;
         
         _currentStroke.AddPoint(pos);
+        
         _cm.SetActiveStroke(_currentStroke);
+        _cm.QueueRedraw();
     }
 
     private void EndStroke(Vector2 pos)
@@ -48,10 +50,13 @@ public class DrawState : IState
             return;
 
         _currentStroke.AddPoint(pos);
-
-        _cm.AddStroke(_currentStroke);
+        
+        ICommand command = new AddStrokeCommand(_cm.DrawingData, _currentStroke);
+        _cm.CommandHistory.Execute(command);
+        
         _cm.SetActiveStroke(null);
-
+        _cm.QueueRedraw();
+        
         _currentStroke = null;
     }
 }
