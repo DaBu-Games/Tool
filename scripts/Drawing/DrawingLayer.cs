@@ -4,69 +4,42 @@ using Godot;
 
 public class DrawingLayer
 {
-    private List<Stroke> _strokes = new List<Stroke>();
-
-    private int _cellSize = 50;
-    private int _cols, _rows;
-    private List<(Stroke stroke, int pointIndex)>[,] _grid;
+    private Image _image;
+    private ImageTexture _texture;
+    private Color _backgroundColor = Colors.White;
 
     public DrawingLayer(Vector2 canvasSize)
     {
-        _cols = (int)Math.Ceiling(canvasSize.X / (float)_cellSize);
-        _rows = (int)Math.Ceiling(canvasSize.Y / (float)_cellSize);
+        int width = (int)canvasSize.X;
+        int height = (int)canvasSize.Y;
         
-        _grid = new List<(Stroke stroke, int pointIndex)>[_cols, _rows];
-
-        for (int x = 0; x < _cols; x++)
-        {
-            for (int y = 0; y < _rows; y++)
-            {
-                _grid[x, y] = new List<(Stroke stroke, int pointIndex)>();
-            }
-        }
+        _image = Image.CreateEmpty(width, height, false, Image.Format.Rgba8);
+        _image.Fill(_backgroundColor);
+        
+        _texture = ImageTexture.CreateFromImage(_image);
     }
     
-    public List<Stroke> GetStrokes() => _strokes;
-
-    public void AddStroke(Stroke stroke)
-    {
-        stroke.SetBounds(_cellSize);
-        _strokes.Add(stroke);
-        
-        for (int i = 0; i < stroke.GetPoints.Count; i++)
-        {
-            AddPointToGrid(stroke, i, stroke.GetPoint(i));
-        }
-    }
-
-    public void RemoveStroke(Stroke stroke)
-    {
-        _strokes.Remove(stroke);
-        RemoveStrokeFromGrid(stroke);
-    }
-
-    private void AddPointToGrid(Stroke stroke, int pointIndex, Vector2 point)
-    {
-        int gx = (int)(point.X / _cellSize);
-        int gy = (int)(point.Y / _cellSize);
-
-        if (gx < 0 || gy < 0 || gx >= _cols || gy >= _rows) 
-            return;
-        
-        _grid[gx, gy].Add((stroke, pointIndex));
-    }
+    public ImageTexture GetTexture() => _texture;
     
-    private void RemoveStrokeFromGrid(Stroke stroke)
+    public void DrawAtPoint(Vector2 pos, int width, Color color)
     {
-        for (int gx = stroke.MinCellX; gx <= stroke.MaxCellX; gx++)
+        for (int i = -width; i <= width; i++)
         {
-            for (int gy = stroke.MinCellY; gy <= stroke.MaxCellY; gy++)
+            for (int j = -width; j <= width; j++)
             {
-                if (gx < 0 || gy < 0 || gx >= _cols || gy >= _rows) 
-                    continue;
-
-                _grid[gx, gy].RemoveAll(p => p.stroke == stroke);
+                int px = (int)Mathf.Clamp(pos.X + i, 0, _image.GetWidth() - 1);
+                int py = (int)Mathf.Clamp(pos.Y + j, 0, _image.GetHeight() - 1);
+                
+                _image.SetPixel(px, py, color);
             }
         }
+        
+        _texture.Update(_image);
     }
+
+    public void ErasePoint()
+    {
+        
+    }
+    
 }

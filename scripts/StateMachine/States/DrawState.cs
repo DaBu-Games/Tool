@@ -5,14 +5,17 @@ public class DrawState : IState
 {
     private StateMachine _sm;
     private CanvasManager _cm;
+    private DrawingData _drawingData;
     private InputManager _im;
-    private Stroke _currentStroke;
+    
+    private bool _isDrawing;
     
     public void OnEnter(StateMachine stateMachine)
     {
         _sm = stateMachine;
         _cm = _sm.CanvasManager;
         _im = _cm.InputManager;
+        _drawingData = _cm.DrawingData;
 
         _im.OnMouseDownCanvas += StartStroke;
         _im.OnMouseMoveCanvas += ContinueStroke;
@@ -28,35 +31,21 @@ public class DrawState : IState
 
     private void StartStroke(Vector2 pos)
     {
-        _currentStroke = new Stroke(_cm.GetCurrentWidth(), _cm.GetCurrentColor());
-        _currentStroke.AddPoint(pos);
-        _cm.SetActiveStroke(_currentStroke);
+        _isDrawing = true;
+        _drawingData.DrawAtPoint(pos);
     }
 
     private void ContinueStroke(Vector2 pos)
     {
-        if(_currentStroke == null)
+        if(!_isDrawing)
             return;
         
-        _currentStroke.AddPoint(pos);
-        
-        _cm.SetActiveStroke(_currentStroke);
-        _cm.QueueRedraw();
+        _drawingData.DrawAtPoint(pos);
     }
 
     private void EndStroke(Vector2 pos)
     {
-        if (_currentStroke == null)
-            return;
-
-        _currentStroke.AddPoint(pos);
-        
-        ICommand command = new AddStrokeCommand(_cm.DrawingData, _currentStroke);
-        _cm.CommandHistory.Execute(command);
-        
-        _cm.SetActiveStroke(null);
-        _cm.QueueRedraw();
-        
-        _currentStroke = null;
+        _drawingData.DrawAtPoint(pos);
+        _isDrawing = false;
     }
 }

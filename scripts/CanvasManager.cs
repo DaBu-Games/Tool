@@ -2,25 +2,17 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class CanvasManager : Control
+public partial class CanvasManager : TextureRect
 {
-    [Export] private float _currentWidth; 
-    [Export] private float _currentEraseRadius;
-    [Export] private Color _currentColor;
-    private Stroke _activeStroke;
-    
     [Export] public InputManager InputManager { get; private set; }
     public CommandHistory CommandHistory { get; private set; } = new CommandHistory();
     public DrawingData DrawingData { get; private set; } = new DrawingData();
     
-    public float GetCurrentWidth() => _currentWidth;
-    public Color GetCurrentColor() => _currentColor;
-    
     public override void _Ready()
     {
         MouseFilter = MouseFilterEnum.Stop;
+        DrawingData.OnChanged += UpdateTexture;
         DrawingData.AddDrawingLayer(this.Size);
-        DrawingData.OnChanged += QueueRedraw;
         
         InputManager.OnUndo += CommandHistory.Undo;
         InputManager.OnRedo += CommandHistory.Redo;
@@ -49,26 +41,10 @@ public partial class CanvasManager : Control
 
     #endregion
     
-    #region Drawing
 
-    public override void _Draw()
+    public void UpdateTexture()
     {
-        foreach (var stroke in DrawingData.GetStrokes())
-        {
-            DrawStroke(stroke);
-        }
-        
-        if (_activeStroke != null)
-            DrawStroke(_activeStroke);
-    }
-    
-    private void DrawStroke(Stroke stroke)
-    {
-        List<Vector2> points = stroke.GetPoints;
-        for (int i = 1; i < points.Count; i++)
-        {
-            DrawLine(points[i - 1], points[i], stroke.GetColor, stroke.GetWidth);
-        }
+        Texture = DrawingData.GetCurrentDrawingLayer().GetTexture();
     }
 
     public void SetDrawingData(DrawingData data)
@@ -76,11 +52,4 @@ public partial class CanvasManager : Control
         DrawingData = data;
         QueueRedraw();
     }
-
-    public void SetActiveStroke(Stroke stroke)
-    {
-        _activeStroke = stroke;
-    }
-    
-    #endregion
 }
