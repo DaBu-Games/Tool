@@ -15,7 +15,9 @@ public partial class CanvasManager : TextureRect
         DrawingData.AddDrawingLayer(this.Size);
         
         InputManager.OnUndo += CommandHistory.Undo;
+        InputManager.OnUndo += UpdateTexture;
         InputManager.OnRedo += CommandHistory.Redo;
+        InputManager.OnRedo += UpdateTexture;
     }
 
     #region Input
@@ -50,6 +52,6 @@ public partial class CanvasManager : TextureRect
     public void SetDrawingData(DrawingData data)
     {
         DrawingData = data;
-        QueueRedraw();
+        UpdateTexture();
     }
 }

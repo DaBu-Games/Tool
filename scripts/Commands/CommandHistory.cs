@@ -9,14 +9,12 @@ public class CommandHistory
 
     public void Execute(ICommand command)
     {
-        command.Execute();
         _undoStack.Push(command);
         _redoStack.Clear();
     }
 
     public void Undo()
     {
-        GD.Print("Undo");
         if(_undoStack.Count == 0) 
             return;
         

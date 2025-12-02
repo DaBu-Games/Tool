@@ -1,22 +1,19 @@
-
 using System;
+using System.Collections.Generic;
+using Godot;
 
-public class AddPixelsCommand : ICommand
+public struct PixelChange
 {
-    private DrawingData _drawingData;
-    
-    public AddPixelsCommand(DrawingData drawingData)
-    {
-        _drawingData = drawingData;
-    }
+    public Vector2 Pos;
+    public Color OldColor;
+    public Color NewColor;
+}
 
-    public void Execute()
-    {
-        
-    }
+public class AddPixelsCommand(DrawingData drawingData, List<PixelChange> changes) : ICommand
+{
+    private DrawingData _drawingData = drawingData;
+    private List<PixelChange> _changes = new(changes);
 
-    public void Undo()
-    { 
-       
-    }
+    public void Execute() => _drawingData.GetCurrentDrawingLayer().ChangePixels(_changes, true);
+    public void Undo() => _drawingData.GetCurrentDrawingLayer().ChangePixels(_changes, false);
 }

@@ -17,4 +17,14 @@ public partial class StateMachine : Node
         _currentState = state;
         _currentState?.OnEnter(this);
     }
+    
+    public void OnEraseButtonPressed()
+    {
+        SetState(new EraseState());
+    }
+
+    public void OnDrawButtonPressed()
+    {
+        SetState(new DrawState());
+    }
 }
