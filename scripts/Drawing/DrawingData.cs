@@ -8,27 +8,13 @@ public class DrawingData
     private int _layerIndex = 0;
     public event Action OnChanged;
     
-    public List<Stroke> GetStrokes() => _drawingLayers[_layerIndex].GetStrokes();
+    public DrawingLayer GetCurrentDrawingLayer() => _drawingLayers[_layerIndex];
+    
+    public void InvokeChange() => OnChanged?.Invoke();
 
-    public void SetDrawingData(List<DrawingLayer> drawingLayers)
+    public void AddDrawingLayer(Vector2 canvasSize)
     {
-        _drawingLayers = drawingLayers;
-    }
-
-    public void AddDrawingLayer()
-    {
-        _drawingLayers.Add(new DrawingLayer());
-    }
-
-    public void AddStroke(Stroke stroke)
-    {
-        _drawingLayers[_layerIndex].AddStroke(stroke);
-        OnChanged?.Invoke();
-    }
-
-    public void RemoveStroke(Stroke stroke)
-    {
-        _drawingLayers[_layerIndex].RemoveStroke(stroke);
-        OnChanged?.Invoke();
+        _drawingLayers.Add(new DrawingLayer(canvasSize));
+        InvokeChange();
     }
 }

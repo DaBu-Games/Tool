@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://m7utjirtdlvm"]
+[gd_scene load_steps=8 format=3 uid="uid://m7utjirtdlvm"]
 
 [ext_resource type="Script" uid="uid://ov8yceev3kp7" path="res://scripts/SaveFileDialog.cs" id="1_3gk12"]
 [ext_resource type="Script" uid="uid://b60yd8jlabvjw" path="res://scripts/CanvasManager.cs" id="1_m650i"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://duq7j6b3a7onr" path="res://scripts/FileStrategy/FileStrategyManager.cs" id="4_m650i"]
 [ext_resource type="Script" uid="uid://cdgjdf4fykn1b" path="res://scripts/InputManager.cs" id="5_bv1xd"]
 [ext_resource type="Script" uid="uid://i8633xnju7c5" path="res://scripts/StateMachine/StateMachine.cs" id="5_fgk3t"]
+[ext_resource type="Script" uid="uid://dtkabrw5ni1rw" path="res://scripts/ProjectSettings.cs" id="7_s5bhh"]
 
 [node name="Main" type="Node"]
 
@@ -17,11 +18,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="CanvasManager" type="TextureRect" parent="ToolUI" node_paths=PackedStringArray("InputManager")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m650i")
+InputManager = NodePath("../../Inputmanager")
+
 [node name="Hbox" type="HBoxContainer" parent="ToolUI"]
-visible = false
 layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
+mouse_filter = 2
 theme_override_constants/separation = 0
 
 [node name="ColorRect" type="ColorRect" parent="ToolUI/Hbox"]
@@ -49,29 +60,33 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 10
 
 [node name="Save" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
 text = "Save"
 
 [node name="Load" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme_override_font_sizes/font_size = 34
 text = "Load
 "
 
-[node name="CanvasManager" type="Panel" parent="ToolUI" node_paths=PackedStringArray("InputManager")]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_m650i")
-_currentWidth = 2.0
-_currentColor = Color(1, 1, 1, 1)
-InputManager = NodePath("../../Inputmanager")
+[node name="Erase" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Erase
+"
+
+[node name="Draw" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Draw
+"
 
 [node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_fileStrategyManager")]
 oversampling_override = 1.0
@@ -103,7 +118,16 @@ script = ExtResource("5_bv1xd")
 script = ExtResource("5_fgk3t")
 CanvasManager = NodePath("../ToolUI/CanvasManager")
 
+[node name="ProjectSettings" type="Node" parent="."]
+script = ExtResource("7_s5bhh")
+BrushWidth = 2
+EraseWidth = 5
+BurshColor = Color(1, 0, 0, 1)
+BackgroundColor = Color(1, 1, 1, 1)
+
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Save" to="SaveFile" method="ShowWindow"]
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Load" to="LoadFile" method="ShowWindow"]
+[connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Erase" to="StateMachine" method="OnEraseButtonPressed"]
+[connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Draw" to="StateMachine" method="OnDrawButtonPressed"]
 [connection signal="file_selected" from="SaveFile" to="SaveFile" method="Save"]
 [connection signal="file_selected" from="LoadFile" to="LoadFile" method="Load"]
