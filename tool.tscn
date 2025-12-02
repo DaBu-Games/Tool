@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://m7utjirtdlvm"]
+[gd_scene load_steps=9 format=3 uid="uid://m7utjirtdlvm"]
 
 [ext_resource type="Script" uid="uid://ov8yceev3kp7" path="res://scripts/SaveFileDialog.cs" id="1_3gk12"]
+[ext_resource type="Script" uid="uid://6k7qtvohyhm8" path="res://scripts/MoveCamera.cs" id="1_gajqh"]
 [ext_resource type="Script" uid="uid://b60yd8jlabvjw" path="res://scripts/CanvasManager.cs" id="1_m650i"]
 [ext_resource type="Script" uid="uid://dlt4kghu46grt" path="res://scripts/LoadFileDialog.cs" id="2_n5j8b"]
 [ext_resource type="Script" uid="uid://duq7j6b3a7onr" path="res://scripts/FileStrategy/FileStrategyManager.cs" id="4_m650i"]
@@ -10,26 +11,28 @@
 
 [node name="Main" type="Node"]
 
-[node name="ToolUI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("_inputManager", "_canvas")]
+position = Vector2(576, 324)
+script = ExtResource("1_gajqh")
+_inputManager = NodePath("../Inputmanager")
+_canvas = NodePath("../CanvasManager")
 
-[node name="CanvasManager" type="TextureRect" parent="ToolUI" node_paths=PackedStringArray("InputManager")]
-layout_mode = 1
+[node name="CanvasManager" type="TextureRect" parent="." node_paths=PackedStringArray("InputManager")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 283.5
+offset_top = 162.0
+offset_right = -292.5
+offset_bottom = -162.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_m650i")
-InputManager = NodePath("../../Inputmanager")
+InputManager = NodePath("../Inputmanager")
+
+[node name="ToolUI" type="CanvasLayer" parent="."]
 
 [node name="Hbox" type="HBoxContainer" parent="ToolUI"]
-layout_mode = 0
 offset_right = 1152.0
 offset_bottom = 648.0
 mouse_filter = 2
@@ -116,7 +119,7 @@ script = ExtResource("5_bv1xd")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("CanvasManager")]
 script = ExtResource("5_fgk3t")
-CanvasManager = NodePath("../ToolUI/CanvasManager")
+CanvasManager = NodePath("../CanvasManager")
 
 [node name="ProjectSettings" type="Node" parent="."]
 script = ExtResource("7_s5bhh")
