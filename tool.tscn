@@ -1,10 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://m7utjirtdlvm"]
+[gd_scene load_steps=12 format=3 uid="uid://m7utjirtdlvm"]
 
-[ext_resource type="Script" uid="uid://ov8yceev3kp7" path="res://scripts/SaveFileDialog.cs" id="1_3gk12"]
 [ext_resource type="Script" uid="uid://6k7qtvohyhm8" path="res://scripts/MoveCamera.cs" id="1_gajqh"]
 [ext_resource type="Script" uid="uid://b60yd8jlabvjw" path="res://scripts/CanvasManager.cs" id="1_m650i"]
-[ext_resource type="Script" uid="uid://dlt4kghu46grt" path="res://scripts/LoadFileDialog.cs" id="2_n5j8b"]
+[ext_resource type="Script" uid="uid://0guywnj1y3is" path="res://scripts/UIInput/ColorPicker.cs" id="3_4j37q"]
+[ext_resource type="Texture2D" uid="uid://c5ke1ph4ojc1v" path="res://icon.svg" id="3_frbc7"]
+[ext_resource type="Script" uid="uid://ov8yceev3kp7" path="res://scripts/Files/SaveFileDialog.cs" id="3_gajqh"]
+[ext_resource type="Script" uid="uid://dlt4kghu46grt" path="res://scripts/Files/LoadFileDialog.cs" id="4_gajqh"]
 [ext_resource type="Script" uid="uid://duq7j6b3a7onr" path="res://scripts/FileStrategy/FileStrategyManager.cs" id="4_m650i"]
+[ext_resource type="Script" uid="uid://di22m33dpi50x" path="res://scripts/UIInput/WidthSlider.cs" id="5_4j37q"]
 [ext_resource type="Script" uid="uid://cdgjdf4fykn1b" path="res://scripts/InputManager.cs" id="5_bv1xd"]
 [ext_resource type="Script" uid="uid://i8633xnju7c5" path="res://scripts/StateMachine/StateMachine.cs" id="5_fgk3t"]
 [ext_resource type="Script" uid="uid://dtkabrw5ni1rw" path="res://scripts/ProjectSettings.cs" id="7_s5bhh"]
@@ -33,6 +36,7 @@ InputManager = NodePath("../Inputmanager")
 [node name="ToolUI" type="CanvasLayer" parent="."]
 
 [node name="Hbox" type="HBoxContainer" parent="ToolUI"]
+visible = false
 offset_right = 1152.0
 offset_bottom = 648.0
 mouse_filter = 2
@@ -91,16 +95,212 @@ theme_override_font_sizes/font_size = 34
 text = "Draw
 "
 
-[node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_fileStrategyManager")]
+[node name="Generate" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "Generate
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ToolUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="ToolBar" type="ColorRect" parent="ToolUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 0
+color = Color(0, 0.44414836, 0.3355654, 1)
+
+[node name="ToolBar" type="HBoxContainer" parent="ToolUI/VBoxContainer/ToolBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="ToolUI/VBoxContainer/ToolBar/ToolBar"]
+layout_mode = 2
+
+[node name="Save" type="Button" parent="ToolUI/VBoxContainer/ToolBar/ToolBar"]
+custom_minimum_size = Vector2(75, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Save"
+
+[node name="Import" type="Button" parent="ToolUI/VBoxContainer/ToolBar/ToolBar"]
+custom_minimum_size = Vector2(75, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Import
+"
+
+[node name="Icons" type="ColorRect" parent="ToolUI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 85)
+layout_mode = 2
+size_flags_vertical = 0
+color = Color(0, 0.972549, 0.7490196, 1)
+
+[node name="Icons" type="HBoxContainer" parent="ToolUI/VBoxContainer/Icons"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="MarginContainer" type="MarginContainer" parent="ToolUI/VBoxContainer/Icons/Icons"]
+layout_mode = 2
+
+[node name="Draw" type="Button" parent="ToolUI/VBoxContainer/Icons/Icons"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Draw
+"
+
+[node name="Erase" type="Button" parent="ToolUI/VBoxContainer/Icons/Icons"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Erase
+"
+
+[node name="Generate" type="Button" parent="ToolUI/VBoxContainer/Icons/Icons"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Generate
+"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ToolUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ToolUI/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("_valueLabel")]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "
+"
+color = Color(1, 0, 0, 1)
+script = ExtResource("3_4j37q")
+_valueLabel = NodePath("../Label")
+
+[node name="Label" type="Label" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "#rbga color"
+horizontal_alignment = 1
+
+[node name="WidthSlider" type="VBoxContainer" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/WidthSlider"]
+layout_mode = 2
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="TextureRect" type="TextureRect" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/WidthSlider/MarginContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_frbc7")
+expand_mode = 5
+
+[node name="MarginContainer2" type="MarginContainer" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/WidthSlider"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="slider" type="VBoxContainer" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/WidthSlider/MarginContainer2"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="VSlider" type="VSlider" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/WidthSlider/MarginContainer2/slider" node_paths=PackedStringArray("_valueLabel")]
+custom_minimum_size = Vector2(50, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+min_value = 1.0
+max_value = 20.0
+value = 1.0
+rounded = true
+scrollable = false
+tick_count = 5
+ticks_on_borders = true
+ticks_position = 2
+script = ExtResource("5_4j37q")
+_valueLabel = NodePath("../Label")
+
+[node name="Label" type="Label" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/WidthSlider/MarginContainer2/slider"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "0.0"
+horizontal_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Button" type="Button" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/MarginContainer2"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Generate"
+
+[node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_canvasManager", "_fileStrategyManager")]
 oversampling_override = 1.0
 initial_position = 2
 access = 2
 filters = PackedStringArray("*.txt", "*.svg")
 use_native_dialog = true
-script = ExtResource("1_3gk12")
+script = ExtResource("3_gajqh")
+_canvasManager = NodePath("../CanvasManager")
 _fileStrategyManager = NodePath("../FileStrategyManager")
 
-[node name="LoadFile" type="FileDialog" parent="." node_paths=PackedStringArray("_fileStrategyManager")]
+[node name="LoadFile" type="FileDialog" parent="." node_paths=PackedStringArray("_canvasManager", "_fileStrategyManager")]
 oversampling_override = 1.0
 title = "Open a File"
 initial_position = 2
@@ -108,7 +308,8 @@ file_mode = 0
 access = 2
 filters = PackedStringArray("*.txt")
 use_native_dialog = true
-script = ExtResource("2_n5j8b")
+script = ExtResource("4_gajqh")
+_canvasManager = NodePath("../CanvasManager")
 _fileStrategyManager = NodePath("../FileStrategyManager")
 
 [node name="FileStrategyManager" type="Node" parent="."]
@@ -123,17 +324,20 @@ CanvasManager = NodePath("../CanvasManager")
 
 [node name="ProjectSettings" type="Node" parent="."]
 script = ExtResource("7_s5bhh")
-BrushWidth = 2
-EraseWidth = 5
-BurshColor = Color(1, 0, 0, 1)
+SelectedWidth = 3
+SelectedColor = Color(1, 0, 0, 1)
 BackgroundColor = Color(1, 1, 1, 1)
-MinZoom = 0.2
-MaxZoom = 4.0
+MinZoom = 0.3
+MaxZoom = 3.0
 ZoomSpeed = 0.1
 
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Save" to="SaveFile" method="ShowWindow"]
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Load" to="LoadFile" method="ShowWindow"]
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Erase" to="StateMachine" method="OnEraseButtonPressed"]
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Draw" to="StateMachine" method="OnDrawButtonPressed"]
+[connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Generate" to="StateMachine" method="OnGenerateButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Draw" to="StateMachine" method="OnDrawButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Erase" to="StateMachine" method="OnEraseButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Generate" to="StateMachine" method="OnGenerateButtonPressed"]
 [connection signal="file_selected" from="SaveFile" to="SaveFile" method="Save"]
 [connection signal="file_selected" from="LoadFile" to="LoadFile" method="Load"]
