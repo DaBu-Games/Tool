@@ -127,6 +127,9 @@ BrushWidth = 2
 EraseWidth = 5
 BurshColor = Color(1, 0, 0, 1)
 BackgroundColor = Color(1, 1, 1, 1)
+MinZoom = 0.2
+MaxZoom = 4.0
+ZoomSpeed = 0.1
 
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Save" to="SaveFile" method="ShowWindow"]
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Load" to="LoadFile" method="ShowWindow"]
