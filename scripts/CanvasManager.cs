@@ -10,7 +10,7 @@ public partial class CanvasManager : TextureRect
     
     public override void _Ready()
     {
-        MouseFilter = MouseFilterEnum.Stop;
+        MouseFilter = MouseFilterEnum.Pass;
         DrawingData.OnChanged += UpdateTexture;
         DrawingData.AddDrawingLayer(this.Size);
         
@@ -19,8 +19,6 @@ public partial class CanvasManager : TextureRect
         InputManager.OnRedo += CommandHistory.Redo;
         InputManager.OnRedo += UpdateTexture;
     }
-
-    #region Input
     
     public override void _GuiInput(InputEvent @event)
     {
@@ -40,9 +38,6 @@ public partial class CanvasManager : TextureRect
             InputManager.NotifyCanvasMouseMove(mm.Position);
         }
     }
-
-    #endregion
-    
 
     public void UpdateTexture()
     {
