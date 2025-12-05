@@ -15,8 +15,8 @@ public class DrawState : IState
     private List<PixelChange> _changes;
     private HashSet<Vector2> _visitedPixels;
 
-    protected virtual Color CurrentColor => ProjectSettings.Instance.BurshColor;
-    protected virtual int CurrenWidth => ProjectSettings.Instance.BrushWidth;
+    protected virtual Color CurrentColor => ProjectSettings.Instance.SelectedColor;
+    private int CurrentWidth => ProjectSettings.Instance.SelectedWidth;
     
     public void OnEnter(StateMachine stateMachine)
     {
@@ -24,7 +24,7 @@ public class DrawState : IState
         _cm = _sm.CanvasManager;
         _im = _cm.InputManager;
         _drawingData = _cm.DrawingData;
-        _stepDistance = ProjectSettings.Instance.BrushWidth * 0.5f;
+        _stepDistance = CurrentWidth * 0.5f;
 
         _im.OnMouseDownCanvas += StartStroke;
         _im.OnMouseMoveCanvas += ContinueStroke;
@@ -84,7 +84,7 @@ public class DrawState : IState
     private void AddPixel(Vector2 pos)
     {
         var changes = _drawingData.GetCurrentDrawingLayer()
-            .DrawAtPoint(pos, CurrenWidth, CurrentColor);
+            .DrawAtPoint(pos, CurrentWidth, CurrentColor);
 
         foreach (var c in changes)
         {

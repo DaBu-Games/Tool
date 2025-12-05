@@ -5,10 +5,23 @@ public partial class ProjectSettings : Node
 {
     public static ProjectSettings Instance { get; private set; }
     
+    // generate
+    [Export] public int SelectedPointCount { get; private set; }
+    public void SetPointCount(int value) => SelectedPointCount = value;
+    
+    [Export] public int SelectedSpikiness { get; private set; }
+    public void SetSpikiness(int value) => SelectedSpikiness = value;
+    
+    [Export] public int SelectedIrregularity  { get; private set; }
+    public void SetIrregularity(int value) => SelectedIrregularity = value;
+    
     // draw
-    [Export]public int BrushWidth { get; private set; }
-    [Export]public int EraseWidth { get; private set; }
-    [Export]public Color BurshColor { get; private set; }
+    [Export]public int SelectedWidth { get; private set; }
+    public void SetWidth(int width) => SelectedWidth = width;
+    
+    [Export]public Color SelectedColor { get; private set; }
+    public void SetColor(Color color) => SelectedColor = color;
+    
     [Export]public Color BackgroundColor { get; private set; }
     
     

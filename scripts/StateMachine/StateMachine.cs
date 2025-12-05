@@ -27,4 +27,9 @@ public partial class StateMachine : Node
     {
         SetState(new DrawState());
     }
+
+    public void OnGenerateButtonPressed()
+    {
+        SetState(new GeneratorState());
+    }
 }

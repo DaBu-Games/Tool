@@ -18,6 +18,8 @@ public class DrawingLayer
         _texture = ImageTexture.CreateFromImage(_image);
     }
     
+    public Vector2 GetSize() => new Vector2(_image.GetWidth(), _image.GetHeight());
+    
     public ImageTexture GetTexture()
     {
         _texture.Update(_image);
@@ -57,10 +59,4 @@ public class DrawingLayer
             _image.SetPixel((int)pixel.Pos.X, (int)pixel.Pos.Y, newColor ? pixel.NewColor : pixel.OldColor);
         }
     }
-
-    public void ErasePoint()
-    {
-        
-    }
-    
 }
