@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public partial class CanvasManager : TextureRect
 {
     [Export] public InputManager InputManager { get; private set; }
+    [Export] public UIManager UiManager { get; private set; }
     public CommandHistory CommandHistory { get; private set; } = new CommandHistory();
     public DrawingData DrawingData { get; private set; } = new DrawingData();
     
