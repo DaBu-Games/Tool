@@ -4,7 +4,7 @@ using Godot;
 public class DrawState : IState
 {
     private StateMachine _sm;
-    private CanvasManager _cm;
+    protected CanvasManager _cm;
     private DrawingData _drawingData;
     private InputManager _im;
     
@@ -29,6 +29,8 @@ public class DrawState : IState
         _im.OnMouseDownCanvas += StartStroke;
         _im.OnMouseMoveCanvas += ContinueStroke;
         _im.OnMouseUpCanvas += EndStroke;
+        
+        ShowUI();
     }
 
     public void OnExit()
@@ -36,6 +38,11 @@ public class DrawState : IState
         _im.OnMouseDownCanvas -= StartStroke;
         _im.OnMouseMoveCanvas -= ContinueStroke;
         _im.OnMouseUpCanvas -= EndStroke;
+    }
+
+    protected virtual void ShowUI()
+    {
+        _cm.UiManager.ShowDrawUI();
     }
 
     private void StartStroke(Vector2 pos)
@@ -71,9 +78,12 @@ public class DrawState : IState
     {
         AddPixel(pos);
         _drawingData.InvokeChange();
-        
-        ICommand command = new AddPixelsCommand(_drawingData, _changes);
-        _cm.CommandHistory.Execute(command);
+
+        if (_changes.Count > 0)
+        {
+            ICommand command = new AddPixelsCommand(_drawingData, _changes);
+            _cm.CommandHistory.Execute(command);
+        }
         
         _changes.Clear();
         _visitedPixels.Clear();
@@ -84,7 +94,7 @@ public class DrawState : IState
     private void AddPixel(Vector2 pos)
     {
         var changes = _drawingData.GetCurrentDrawingLayer()
-            .DrawAtPoint(pos, CurrentWidth, CurrentColor);
+            .DrawWithRadius(pos, CurrentWidth, CurrentColor);
 
         foreach (var c in changes)
         {

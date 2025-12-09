@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkuhibvvtkji6"
-path="res://.godot/imported/spike-icon.png-2e1e23154370eeddaff15ba87501ff98.ctex"
+uid="uid://cw16c5moea14c"
+path="res://.godot/imported/width-icon.svg-6ffd6775f2aa2cafeb37ef133fc125bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/spike-icon.png"
-dest_files=["res://.godot/imported/spike-icon.png-2e1e23154370eeddaff15ba87501ff98.ctex"]
+source_file="res://Assets/width-icon.svg"
+dest_files=["res://.godot/imported/width-icon.svg-6ffd6775f2aa2cafeb37ef133fc125bf.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

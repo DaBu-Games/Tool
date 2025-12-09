@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qb3hwf1s106m"
-path="res://.godot/imported/irregularly-icon.png-207c8bc4ad74d35b4903fafa7383ce70.ctex"
+uid="uid://0utbps45vrra"
+path="res://.godot/imported/spike-icon.svg-4d09c68cdbab89330e01ff286e6c72b7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/irregularly-icon.png"
-dest_files=["res://.godot/imported/irregularly-icon.png-207c8bc4ad74d35b4903fafa7383ce70.ctex"]
+source_file="res://Assets/spike-icon.svg"
+dest_files=["res://.godot/imported/spike-icon.svg-4d09c68cdbab89330e01ff286e6c72b7.ctex"]
 
 [params]
 
@@ -38,3 +38,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

@@ -26,30 +26,41 @@ public class DrawingLayer
         return _texture;
     }
 
-    public List<PixelChange> DrawAtPoint(Vector2 pos, int width, Color color)
+    public List<PixelChange> DrawWithRadius(Vector2 pos, int width, Color color)
     {
         List<PixelChange> changes = new List<PixelChange>();
+        
+        float rSquared = width * width;
+        
         for (int i = -width; i <= width; i++)
         {
             for (int j = -width; j <= width; j++)
             {
+                if (i * i + j * j > rSquared)
+                    continue;
+                
                 int px = (int)Mathf.Clamp(pos.X + i, 0, _image.GetWidth() - 1);
                 int py = (int)Mathf.Clamp(pos.Y + j, 0, _image.GetHeight() - 1);
-                
-                Color oldColor = _image.GetPixel(px, py);
-                
-                _image.SetPixel(px, py, color);
-                
-                changes.Add(new PixelChange
+
+                PixelChange pixel = DrawAtPoint(new Vector2I(px, py), color);
+
+                if (pixel.OldColor != pixel.NewColor)
                 {
-                    Pos = new Vector2(px, py),
-                    OldColor = oldColor,
-                    NewColor = color
-                });
+                    changes.Add(pixel);
+                }
             }
         }
         
         return changes;
+    }
+
+    public PixelChange DrawAtPoint(Vector2I pos, Color newColor)
+    {
+        Color oldColor = _image.GetPixel(pos.X, pos.Y);
+        
+        _image.SetPixel(pos.X, pos.Y, newColor);
+        
+        return new PixelChange(pos, oldColor, newColor);
     }
 
     public void ChangePixels(List<PixelChange> changes, bool newColor)

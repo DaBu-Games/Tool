@@ -34,6 +34,8 @@ public class GeneratorState : IState
         _im.OnMouseDownCanvas += StartSelection;
         _im.OnMouseMoveCanvas += ContinueSelection;
         _im.OnMouseUpCanvas += EndSelection;
+        
+        _cm.UiManager.ShowGenerateUI();
     }
 
     public void OnExit()
@@ -79,12 +81,10 @@ public class GeneratorState : IState
         ClampSelection(rawPos);
         
         _isSelecting = false;
+        _selectionBox.Hide();
 
         if (_selectionBox.Size is { X: <= MinSelectionSize, Y: <= MinSelectionSize })
-        {
-            _selectionBox.Hide();
             return;
-        }
         
         GenerateShape(_selectionBox.Position, _selectionBox.Size);
         
@@ -210,7 +210,7 @@ public class GeneratorState : IState
     private void AddPixel(Vector2 pos)
     {
         var changes = _drawingData.GetCurrentDrawingLayer()
-            .DrawAtPoint(pos, 1, _selectedColor);
+            .DrawWithRadius(pos, ProjectSettings.Instance.SelectedWidth, _selectedColor);
 
         foreach (var c in changes)
         {
