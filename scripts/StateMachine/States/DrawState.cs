@@ -30,7 +30,7 @@ public class DrawState : IState
         _im.OnMouseMoveCanvas += ContinueStroke;
         _im.OnMouseUpCanvas += EndStroke;
         
-        ShowUI();
+        ShowUi();
     }
 
     public void OnExit()
@@ -40,7 +40,7 @@ public class DrawState : IState
         _im.OnMouseUpCanvas -= EndStroke;
     }
 
-    protected virtual void ShowUI()
+    protected virtual void ShowUi()
     {
         _cm.UiManager.ShowDrawUI();
     }

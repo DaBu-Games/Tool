@@ -7,13 +7,14 @@ public partial class CanvasManager : TextureRect
     [Export] public InputManager InputManager { get; private set; }
     [Export] public UIManager UiManager { get; private set; }
     public CommandHistory CommandHistory { get; private set; } = new CommandHistory();
-    public DrawingData DrawingData { get; private set; } = new DrawingData();
+    public DrawingData DrawingData = null;
     
     public override void _Ready()
     {
         MouseFilter = MouseFilterEnum.Pass;
+        DrawingData = new DrawingData(this.Size);
         DrawingData.OnChanged += UpdateTexture;
-        DrawingData.AddDrawingLayer(this.Size);
+        DrawingData.InvokeChange();
         
         InputManager.OnUndo += CommandHistory.Undo;
         InputManager.OnUndo += UpdateTexture;
@@ -48,6 +49,8 @@ public partial class CanvasManager : TextureRect
     public void SetDrawingData(DrawingData data)
     {
         DrawingData = data;
+        Size = DrawingData.GetCurrentDrawingLayer().GetSize();
+        
         UpdateTexture();
     }
 }

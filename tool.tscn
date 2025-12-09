@@ -37,9 +37,24 @@ offset_right = -435.0
 offset_bottom = -270.0
 grow_horizontal = 2
 grow_vertical = 2
+expand_mode = 1
+stretch_mode = 3
 script = ExtResource("1_m650i")
 InputManager = NodePath("../Inputmanager")
 UiManager = NodePath("../UIManager")
+metadata/_edit_use_anchors_ = true
+
+[node name="ReferenceRect" type="ReferenceRect" parent="CanvasManager"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+border_color = Color(0, 0, 0, 1)
+border_width = 4.0
+editor_only = false
 
 [node name="ToolUI" type="CanvasLayer" parent="."]
 
@@ -464,7 +479,7 @@ title = "Open a File"
 initial_position = 2
 file_mode = 0
 access = 2
-filters = PackedStringArray("*.txt")
+filters = PackedStringArray("*.png")
 use_native_dialog = true
 script = ExtResource("4_gajqh")
 _canvasManager = NodePath("../CanvasManager")
@@ -482,9 +497,6 @@ CanvasManager = NodePath("../CanvasManager")
 
 [node name="ProjectSettings" type="Node" parent="."]
 script = ExtResource("7_s5bhh")
-SelectedPointCount = 12
-SelectedSpikiness = 5
-SelectedIrregularity = 5
 SelectedWidth = 1
 SelectedColor = Color(1, 0, 0, 1)
 BackgroundColor = Color(1, 1, 1, 1)
@@ -503,6 +515,8 @@ _spikeSlider = NodePath("../ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/Spi
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Erase" to="StateMachine" method="OnEraseButtonPressed"]
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Draw" to="StateMachine" method="OnDrawButtonPressed"]
 [connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Generate" to="StateMachine" method="OnGenerateButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/ToolBar/ToolBar/Save" to="SaveFile" method="ShowWindow"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/ToolBar/ToolBar/Import" to="LoadFile" method="ShowWindow"]
 [connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Draw" to="StateMachine" method="OnDrawButtonPressed"]
 [connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Erase" to="StateMachine" method="OnEraseButtonPressed"]
 [connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Generate" to="StateMachine" method="OnGenerateButtonPressed"]

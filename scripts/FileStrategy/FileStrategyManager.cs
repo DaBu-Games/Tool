@@ -15,9 +15,9 @@ public partial class FileStrategyManager : Node
         //save
             RegisterSaveStrategy(new TxtSaveStrategy());
             
-        // version 1   
-            //load
-            RegisterLoadStrategy(new Version1.TxtLoadStrategy());
+        // load   
+            // Version 1
+            RegisterLoadStrategy(new Version1.PngLoadStrategy());
     }
 
     public void RegisterSaveStrategy(IFileSaveStrategy strategy)

@@ -24,6 +24,8 @@ public partial class MoveCamera : Camera2D
 
         _startPos = Position;
         _settings = ProjectSettings.Instance;
+
+        _canvas.ItemRectChanged += CheckBounds;
         CheckBounds();
     }
 

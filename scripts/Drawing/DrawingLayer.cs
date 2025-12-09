@@ -6,19 +6,33 @@ public class DrawingLayer
 {
     private Image _image;
     private ImageTexture _texture;
+    private Vector2 _imageSize;
 
     public DrawingLayer(Vector2 canvasSize)
     {
+        _imageSize  = canvasSize;
         int width = (int)canvasSize.X;
         int height = (int)canvasSize.Y;
-        
+
         _image = Image.CreateEmpty(width, height, false, Image.Format.Rgba8);
         _image.Fill(ProjectSettings.Instance.BackgroundColor);
-        
+
         _texture = ImageTexture.CreateFromImage(_image);
     }
-    
-    public Vector2 GetSize() => new Vector2(_image.GetWidth(), _image.GetHeight());
+
+    public DrawingLayer(Image image)
+    {
+        if (image.GetFormat() != Image.Format.Rgba8)
+            image.Convert(Image.Format.Rgba8);
+        
+        image.Decompress();
+        
+        _image = image;
+        _imageSize = new Vector2(image.GetWidth(), image.GetHeight());
+        _texture = ImageTexture.CreateFromImage(_image);
+    }
+
+    public Vector2 GetSize() => _imageSize;
     
     public ImageTexture GetTexture()
     {
