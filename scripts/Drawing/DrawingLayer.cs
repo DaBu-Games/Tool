@@ -32,7 +32,8 @@ public class DrawingLayer
         _texture = ImageTexture.CreateFromImage(_image);
     }
 
-    public Vector2 GetSize() => _imageSize;
+    public Vector2 ImageSize => _imageSize;
+    public Image Image => _image; 
     
     public ImageTexture GetTexture()
     {

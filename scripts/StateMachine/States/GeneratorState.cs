@@ -5,7 +5,6 @@ public class GeneratorState : IState
 {
     private StateMachine _sm;
     private CanvasManager _cm;
-    private DrawingData _drawingData;
     private InputManager _im;
     private SelectionBox _selectionBox;
 
@@ -24,7 +23,6 @@ public class GeneratorState : IState
         _sm = stateMachine;
         _cm = _sm.CanvasManager;
         _im = _cm.InputManager;
-        _drawingData = _cm.DrawingData;
         
         _selectionBox = new SelectionBox();
         _selectionBox.MouseFilter = Control.MouseFilterEnum.Ignore; 
@@ -49,7 +47,7 @@ public class GeneratorState : IState
 
     private void StartSelection(Vector2 rawPos)
     {
-        _canvasSize = _drawingData.GetCurrentDrawingLayer().GetSize();
+        _canvasSize = _cm.DrawingData.GetCurrentDrawingLayer().ImageSize;
         
         Vector2 pos = new Vector2(
             Mathf.Clamp(rawPos.X, 0, _canvasSize.X),
@@ -88,10 +86,10 @@ public class GeneratorState : IState
         
         GenerateShape(_selectionBox.Position, _selectionBox.Size);
         
-        _drawingData.InvokeChange();
+        _cm.DrawingData.InvokeChange();
         
-        ICommand command = new AddPixelsCommand(_drawingData, _changes);
-        _cm.CommandHistory.Execute(command);
+        ICommand command = new AddPixelsCommand(_cm.DrawingData, _changes);
+        _cm.CommandHistory.AddCommand(command);
         
         _changes.Clear();
         _visitedPixels.Clear();
@@ -119,7 +117,7 @@ public class GeneratorState : IState
     
     private void GenerateShape(Vector2 start, Vector2 size)
     {
-        var layer = _drawingData.GetCurrentDrawingLayer();
+        var layer = _cm.DrawingData.GetCurrentDrawingLayer();
         Rect2 rect = new Rect2(start, size).Abs();
         
         List<Vector2> poly = GenerateRandomPolygon(rect);
@@ -209,7 +207,7 @@ public class GeneratorState : IState
     
     private void AddPixel(Vector2 pos)
     {
-        var changes = _drawingData.GetCurrentDrawingLayer()
+        var changes = _cm.DrawingData.GetCurrentDrawingLayer()
             .DrawWithRadius(pos, ProjectSettings.Instance.SelectedWidth, _selectedColor);
 
         foreach (var c in changes)

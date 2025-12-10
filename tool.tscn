@@ -467,7 +467,7 @@ horizontal_alignment = 1
 oversampling_override = 1.0
 initial_position = 2
 access = 2
-filters = PackedStringArray("*.txt", "*.svg")
+filters = PackedStringArray("*.png")
 use_native_dialog = true
 script = ExtResource("3_gajqh")
 _canvasManager = NodePath("../CanvasManager")
@@ -497,11 +497,14 @@ CanvasManager = NodePath("../CanvasManager")
 
 [node name="ProjectSettings" type="Node" parent="."]
 script = ExtResource("7_s5bhh")
+SelectedPointCount = 5
+SelectedSpikiness = 5
+SelectedIrregularity = 5
 SelectedWidth = 1
 SelectedColor = Color(1, 0, 0, 1)
-BackgroundColor = Color(1, 1, 1, 1)
-MinZoom = 0.3
-MaxZoom = 3.0
+BackgroundColor = Color(1, 1, 1, 0)
+MinZoom = 0.25
+MaxZoom = 2.0
 ZoomSpeed = 0.1
 
 [node name="UIManager" type="Node" parent="." node_paths=PackedStringArray("_colorPicker", "_generateUi", "_spikeSlider")]

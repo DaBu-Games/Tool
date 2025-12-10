@@ -13,7 +13,7 @@ public partial class FileStrategyManager : Node
     public override void _Ready()
     {
         //save
-            RegisterSaveStrategy(new TxtSaveStrategy());
+            RegisterSaveStrategy(new PngSaveStrategy());
             
         // load   
             // Version 1

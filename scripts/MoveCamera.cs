@@ -12,6 +12,9 @@ public partial class MoveCamera : Camera2D
     
     private bool _canMove = false;
     private ProjectSettings _settings;
+    
+    private float _minZoom = 0.1f;
+    private float _maxZoom;
 
     public override void _Ready()
     {
@@ -19,17 +22,42 @@ public partial class MoveCamera : Camera2D
         _inputManager.OnClickLeftMouseUp += ResetMove;
         _inputManager.OnMouseMove += Move;
 
-        _inputManager.OnMouseScrollDown += ZoomIn;
-        _inputManager.OnMouseScrollUp += ZoomOut;
+        _inputManager.OnMouseScrollDown += ZoomOut;
+        _inputManager.OnMouseScrollUp += ZoomIn;
 
         _startPos = Position;
         _settings = ProjectSettings.Instance;
 
-        _canvas.ItemRectChanged += CheckBounds;
+        _canvas.ItemRectChanged += ComputeZoomLimits;
+
+        ComputeZoomLimits();
+    }
+    
+    private void ComputeZoomLimits()
+    {
+        Vector2 viewport = GetViewportRect().Size;
+        Vector2 canvasSize = _canvas.Size;
+
+        float scaleX = canvasSize.X / viewport.X;
+        float scaleY = canvasSize.Y / viewport.Y;
+
+        float fitScale = Mathf.Max(scaleX, scaleY);
+        
+        float fitZoom = 1f / fitScale;
+
+        // allow 2× extra zoom out
+        _minZoom = fitZoom * _settings.MinZoom;
+
+        // allow 4× zoom in
+        _maxZoom = fitZoom *_settings.MaxZoom;
+
+        Zoom = Vector2.One * fitZoom;
+
+        CenterCamera();
         CheckBounds();
     }
 
-    public void CenterCamera()
+    private void CenterCamera()
     {
         Position = _startPos;
     }
@@ -60,15 +88,15 @@ public partial class MoveCamera : Camera2D
 
     private void ZoomIn()
     {
-        Zoom -= Vector2.One * _settings.ZoomSpeed;
-        Zoom = Zoom.Clamp(Vector2.One * _settings.MinZoom, Vector2.One * _settings.MaxZoom);
+        Zoom += Vector2.One * _settings.ZoomSpeed;
+        Zoom = Zoom.Clamp(Vector2.One * _minZoom, Vector2.One * _maxZoom);
         CheckBounds();
     }
 
     private void ZoomOut()
     {
-        Zoom += Vector2.One * _settings.ZoomSpeed;
-        Zoom = Zoom.Clamp(Vector2.One * _settings.MinZoom, Vector2.One * _settings.MaxZoom);
+        Zoom -= Vector2.One * _settings.ZoomSpeed;
+        Zoom = Zoom.Clamp(Vector2.One * _minZoom, Vector2.One * _maxZoom);
         CheckBounds();
     }
 

@@ -14,8 +14,13 @@ public partial class LoadFileDialog : FileDialog
     private void Load(string path)
     {
         DrawingData data = _fileStrategyManager.LoadFile(path);
-        
-        if(data != null)
-            _canvasManager.SetDrawingData(data);
+
+        if (data != null)
+        {
+            ICommand command = new ChangeDrawingDataCommand(_canvasManager, data);
+            _canvasManager.CommandHistory.AddCommand(command);
+            command.Execute();
+        }
+            
     }
 }
