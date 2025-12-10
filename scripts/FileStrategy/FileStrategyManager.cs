@@ -14,10 +14,12 @@ public partial class FileStrategyManager : Node
     {
         //save
             RegisterSaveStrategy(new PngSaveStrategy());
+            RegisterSaveStrategy(new JpgSaveStrategy());
             
         // load   
             // Version 1
             RegisterLoadStrategy(new Version1.PngLoadStrategy());
+            RegisterLoadStrategy(new Version1.JpgLoadStrategy());
     }
 
     public void RegisterSaveStrategy(IFileSaveStrategy strategy)
