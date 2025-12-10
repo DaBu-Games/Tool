@@ -20,6 +20,7 @@ public partial class FileStrategyManager : Node
             // Version 1
             RegisterLoadStrategy(new Version1.PngLoadStrategy());
             RegisterLoadStrategy(new Version1.JpgLoadStrategy());
+            RegisterLoadStrategy(new Version1.SvgLoadStrategy());
     }
 
     public void RegisterSaveStrategy(IFileSaveStrategy strategy)
