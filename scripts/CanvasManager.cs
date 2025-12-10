@@ -52,7 +52,6 @@ public partial class CanvasManager : TextureRect
     {
         _drawingData = data;
         Size = _drawingData.GetCurrentDrawingLayer().ImageSize;
-        Position = Size / 4;
         
         _drawingData.OnChanged += UpdateTexture;
         _drawingData.InvokeChange();

@@ -13,7 +13,7 @@ public partial class MoveCamera : Camera2D
     private bool _canMove = false;
     private ProjectSettings _settings;
     
-    private float _minZoom = 0.1f;
+    private float _minZoom;
     private float _maxZoom;
 
     public override void _Ready()
@@ -44,22 +44,19 @@ public partial class MoveCamera : Camera2D
         float fitScale = Mathf.Max(scaleX, scaleY);
         
         float fitZoom = 1f / fitScale;
-
-        // allow 2× extra zoom out
+        
         _minZoom = fitZoom * _settings.MinZoom;
-
-        // allow 4× zoom in
         _maxZoom = fitZoom *_settings.MaxZoom;
 
-        Zoom = Vector2.One * fitZoom;
+        Zoom = Vector2.One * ((_maxZoom + _minZoom ) * 0.25f);
 
-        CenterCamera();
+        CenterCamera(canvasSize);
         CheckBounds();
     }
 
-    private void CenterCamera()
+    private void CenterCamera(Vector2 canvasSize)
     {
-        Position = _startPos;
+        Position = canvasSize * 0.5f;
     }
 
     private void SetStartPosition(Vector2 position)
