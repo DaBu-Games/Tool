@@ -12,9 +12,13 @@ public class DrawingData
     
     public void InvokeChange() => OnChanged?.Invoke();
 
-    public void AddDrawingLayer(Vector2 canvasSize)
+    public DrawingData(Vector2 canvasSize)
     {
         _drawingLayers.Add(new DrawingLayer(canvasSize));
-        InvokeChange();
+    }
+    
+    public DrawingData(Image image)
+    {
+        _drawingLayers.Add(new DrawingLayer(image));
     }
 }

@@ -5,7 +5,6 @@ public class DrawState : IState
 {
     private StateMachine _sm;
     protected CanvasManager _cm;
-    private DrawingData _drawingData;
     private InputManager _im;
     
     private bool _isDrawing;
@@ -23,14 +22,12 @@ public class DrawState : IState
         _sm = stateMachine;
         _cm = _sm.CanvasManager;
         _im = _cm.InputManager;
-        _drawingData = _cm.DrawingData;
-        _stepDistance = CurrentWidth * 0.5f;
 
         _im.OnMouseDownCanvas += StartStroke;
         _im.OnMouseMoveCanvas += ContinueStroke;
         _im.OnMouseUpCanvas += EndStroke;
         
-        ShowUI();
+        ShowUi();
     }
 
     public void OnExit()
@@ -40,7 +37,7 @@ public class DrawState : IState
         _im.OnMouseUpCanvas -= EndStroke;
     }
 
-    protected virtual void ShowUI()
+    protected virtual void ShowUi()
     {
         _cm.UiManager.ShowDrawUI();
     }
@@ -50,6 +47,7 @@ public class DrawState : IState
         _isDrawing = true;
         _changes = new List<PixelChange>();
         _visitedPixels = new HashSet<Vector2>();
+        _stepDistance = CurrentWidth * 0.5f;
         
         AddPixel(pos);
         _lastPos = pos;
@@ -71,18 +69,18 @@ public class DrawState : IState
         }
         
         _lastPos = pos;
-        _drawingData.InvokeChange();
+        _cm.DrawingData.InvokeChange();
     }
 
     private void EndStroke(Vector2 pos)
     {
         AddPixel(pos);
-        _drawingData.InvokeChange();
+        _cm.DrawingData.InvokeChange();
 
         if (_changes.Count > 0)
         {
-            ICommand command = new AddPixelsCommand(_drawingData, _changes);
-            _cm.CommandHistory.Execute(command);
+            ICommand command = new AddPixelsCommand(_cm.DrawingData, _changes);
+            _cm.CommandHistory.AddCommand(command);
         }
         
         _changes.Clear();
@@ -93,7 +91,7 @@ public class DrawState : IState
     
     private void AddPixel(Vector2 pos)
     {
-        var changes = _drawingData.GetCurrentDrawingLayer()
+        var changes = _cm.DrawingData.GetCurrentDrawingLayer()
             .DrawWithRadius(pos, CurrentWidth, CurrentColor);
 
         foreach (var c in changes)
