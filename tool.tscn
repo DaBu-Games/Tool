@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=3 uid="uid://m7utjirtdlvm"]
+[gd_scene load_steps=20 format=3 uid="uid://m7utjirtdlvm"]
 
 [ext_resource type="Script" uid="uid://6k7qtvohyhm8" path="res://scripts/MoveCamera.cs" id="1_gajqh"]
 [ext_resource type="Script" uid="uid://b60yd8jlabvjw" path="res://scripts/CanvasManager.cs" id="1_m650i"]
 [ext_resource type="Script" uid="uid://0guywnj1y3is" path="res://scripts/UIInput/ColorPicker.cs" id="3_4j37q"]
 [ext_resource type="Texture2D" uid="uid://ctw1dhtyg24am" path="res://Assets/points-icon.svg" id="3_cutrm"]
 [ext_resource type="Script" uid="uid://ov8yceev3kp7" path="res://scripts/Files/SaveFileDialog.cs" id="3_gajqh"]
+[ext_resource type="Script" uid="uid://j1hb6epo4jk6" path="res://scripts/SizeInput.cs" id="3_oxf03"]
 [ext_resource type="Script" uid="uid://dlt4kghu46grt" path="res://scripts/Files/LoadFileDialog.cs" id="4_gajqh"]
 [ext_resource type="Script" uid="uid://duq7j6b3a7onr" path="res://scripts/FileStrategy/FileStrategyManager.cs" id="4_m650i"]
 [ext_resource type="Script" uid="uid://dnvmayve0c0f6" path="res://scripts/UIInput/Sliders/PointCountSlider.cs" id="4_mjpnr"]
@@ -179,10 +180,12 @@ color = Color(0, 0.972549, 0.7490196, 1)
 
 [node name="Icons" type="HBoxContainer" parent="ToolUI/VBoxContainer/Icons"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -30.0
+offset_right = 390.0
+offset_bottom = 30.0
 grow_vertical = 2
 size_flags_vertical = 0
 theme_override_constants/separation = 10
@@ -216,6 +219,61 @@ size_flags_vertical = 4
 theme_override_font_sizes/font_size = 21
 text = "Generate
 "
+
+[node name="SizeInput" type="HBoxContainer" parent="ToolUI/VBoxContainer/Icons" node_paths=PackedStringArray("_canvasManager", "_sizeInputX", "_sizeInputY")]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 10
+script = ExtResource("3_oxf03")
+_canvasManager = NodePath("../../../../CanvasManager")
+_sizeInputX = NodePath("X/Xinput")
+_sizeInputY = NodePath("Y/Yinput")
+
+[node name="X" type="HBoxContainer" parent="ToolUI/VBoxContainer/Icons/SizeInput"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Xlabel" type="Label" parent="ToolUI/VBoxContainer/Icons/SizeInput/X"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "X:"
+
+[node name="Xinput" type="LineEdit" parent="ToolUI/VBoxContainer/Icons/SizeInput/X"]
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 39
+text = "1080"
+alignment = 1
+
+[node name="Y" type="HBoxContainer" parent="ToolUI/VBoxContainer/Icons/SizeInput"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Ylabel" type="Label" parent="ToolUI/VBoxContainer/Icons/SizeInput/Y"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Y:"
+
+[node name="Yinput" type="LineEdit" parent="ToolUI/VBoxContainer/Icons/SizeInput/Y"]
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 39
+text = "1920"
+alignment = 1
+
+[node name="Control2" type="Control" parent="ToolUI/VBoxContainer/Icons/SizeInput"]
+layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ToolUI/VBoxContainer"]
 layout_mode = 2
