@@ -56,4 +56,9 @@ public partial class CanvasManager : TextureRect
         _drawingData.OnChanged += UpdateTexture;
         _drawingData.InvokeChange();
     }
+
+    public void ChangeSize(Vector2I size)
+    {
+        this.Size = size;
+    }
 }

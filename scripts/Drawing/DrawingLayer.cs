@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using Godot;
+using Color = Godot.Color;
 
 public class DrawingLayer
 {
@@ -84,5 +86,43 @@ public class DrawingLayer
         {
             _image.SetPixel((int)pixel.Pos.X, (int)pixel.Pos.Y, newColor ? pixel.NewColor : pixel.OldColor);
         }
+    }
+    
+    public List<PixelChange> ResizeCanvas(Vector2I newSize)
+    {
+        Image newImage = Image.CreateEmpty(newSize.X, newSize.Y, false, Image.Format.Rgba8);
+        newImage.Fill(ProjectSettings.Instance.BackgroundColor);
+
+        int oldWidth = _image.GetWidth();
+        int oldHeight = _image.GetHeight();
+
+        List<PixelChange> pixelChanges = new List<PixelChange>();
+
+        for (int y = 0; y < oldHeight; y++)
+        {
+            for (int x = 0; x < oldWidth; x++)
+            {
+                Color oldPixel = _image.GetPixel(x, y);
+
+                if (x < newSize.X && y < newSize.Y)
+                {
+                    newImage.SetPixel(x, y, oldPixel);
+                }
+                else
+                {
+                    pixelChanges.Add(new PixelChange(
+                        new Vector2(x, y),
+                        oldPixel,
+                        ProjectSettings.Instance.BackgroundColor
+                    ));
+                }
+            }
+        }
+
+        _image = newImage;
+        _imageSize = newSize;
+        _texture = ImageTexture.CreateFromImage(_image);
+
+        return pixelChanges;
     }
 }
