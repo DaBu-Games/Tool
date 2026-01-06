@@ -65,4 +65,6 @@ public partial class InputManager : Node
     public void NotifyCanvasMouseDown(Vector2 pos) => OnMouseDownCanvas?.Invoke(pos);
     public void NotifyCanvasMouseUp(Vector2 pos) => OnMouseUpCanvas?.Invoke(pos);
     public void NotifyCanvasMouseMove(Vector2 pos) => OnMouseMoveCanvas?.Invoke(pos);
+    public void Undo() => OnUndo?.Invoke();
+    public void Redo() => OnRedo?.Invoke();
 }
