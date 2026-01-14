@@ -1,20 +1,25 @@
-[gd_scene load_steps=20 format=3 uid="uid://m7utjirtdlvm"]
+[gd_scene load_steps=25 format=3 uid="uid://m7utjirtdlvm"]
 
 [ext_resource type="Script" uid="uid://6k7qtvohyhm8" path="res://scripts/MoveCamera.cs" id="1_gajqh"]
 [ext_resource type="Script" uid="uid://b60yd8jlabvjw" path="res://scripts/CanvasManager.cs" id="1_m650i"]
+[ext_resource type="Script" uid="uid://cu5wlh7hobho0" path="res://scripts/Drawing/BurshIcon.cs" id="1_xdna4"]
 [ext_resource type="Script" uid="uid://0guywnj1y3is" path="res://scripts/UIInput/ColorPicker.cs" id="3_4j37q"]
 [ext_resource type="Texture2D" uid="uid://ctw1dhtyg24am" path="res://Assets/points-icon.svg" id="3_cutrm"]
 [ext_resource type="Script" uid="uid://ov8yceev3kp7" path="res://scripts/Files/SaveFileDialog.cs" id="3_gajqh"]
 [ext_resource type="Script" uid="uid://j1hb6epo4jk6" path="res://scripts/SizeInput.cs" id="3_oxf03"]
+[ext_resource type="Script" uid="uid://cpixow3htydy4" path="res://scripts/UIInput/QuitButton.cs" id="3_yicra"]
 [ext_resource type="Script" uid="uid://dlt4kghu46grt" path="res://scripts/Files/LoadFileDialog.cs" id="4_gajqh"]
+[ext_resource type="Texture2D" uid="uid://cyr4w3ddmspd8" path="res://Assets/back-arrow.png" id="4_kle4y"]
 [ext_resource type="Script" uid="uid://duq7j6b3a7onr" path="res://scripts/FileStrategy/FileStrategyManager.cs" id="4_m650i"]
 [ext_resource type="Script" uid="uid://dnvmayve0c0f6" path="res://scripts/UIInput/Sliders/PointCountSlider.cs" id="4_mjpnr"]
 [ext_resource type="Script" uid="uid://cdgjdf4fykn1b" path="res://scripts/InputManager.cs" id="5_bv1xd"]
 [ext_resource type="Script" uid="uid://i8633xnju7c5" path="res://scripts/StateMachine/StateMachine.cs" id="5_fgk3t"]
 [ext_resource type="Script" uid="uid://clx2fulcmbabe" path="res://scripts/UIInput/Sliders/WidthSlider.cs" id="5_hgi0d"]
 [ext_resource type="Script" uid="uid://cdqpovr510xya" path="res://scripts/UIInput/Sliders/IrregularitySlider.cs" id="5_hq8em"]
+[ext_resource type="Texture2D" uid="uid://cy5ehmoitwexs" path="res://Assets/back-arrow-white.png" id="5_j711j"]
 [ext_resource type="Texture2D" uid="uid://bgngp3j1asgw" path="res://Assets/irregularly -icon.svg" id="5_oxf03"]
 [ext_resource type="Script" uid="uid://bcjou6r3nqw6h" path="res://scripts/UIInput/Sliders/SpikinessSlider.cs" id="6_hgi0d"]
+[ext_resource type="Texture2D" uid="uid://cxew0bs4l2xin" path="res://Assets/back-arrow-black.png" id="6_xdna4"]
 [ext_resource type="Script" uid="uid://dtkabrw5ni1rw" path="res://scripts/ProjectSettings.cs" id="7_s5bhh"]
 [ext_resource type="Texture2D" uid="uid://cw16c5moea14c" path="res://Assets/width-icon.svg" id="8_yicra"]
 [ext_resource type="Texture2D" uid="uid://0utbps45vrra" path="res://Assets/spike-icon.svg" id="10_kle4y"]
@@ -29,6 +34,8 @@ _inputManager = NodePath("../Inputmanager")
 _canvas = NodePath("../CanvasManager")
 
 [node name="CanvasManager" type="TextureRect" parent="." node_paths=PackedStringArray("InputManager", "UiManager")]
+z_index = 2
+z_as_relative = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -43,7 +50,19 @@ InputManager = NodePath("../Inputmanager")
 UiManager = NodePath("../UIManager")
 metadata/_edit_use_anchors_ = true
 
-[node name="ReferenceRect" type="ReferenceRect" parent="CanvasManager"]
+[node name="ColorRect" type="ColorRect" parent="CanvasManager"]
+z_as_relative = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+mouse_behavior_recursive = 1
+
+[node name="ReferenceRect" type="ReferenceRect" parent="CanvasManager/ColorRect"]
+z_index = -1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,73 +75,6 @@ border_width = 4.0
 editor_only = false
 
 [node name="ToolUI" type="CanvasLayer" parent="."]
-
-[node name="Hbox" type="HBoxContainer" parent="ToolUI"]
-visible = false
-offset_right = 1152.0
-offset_bottom = 648.0
-mouse_filter = 2
-theme_override_constants/separation = 0
-
-[node name="ColorRect" type="ColorRect" parent="ToolUI/Hbox"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-size_flags_horizontal = 2
-color = Color(0, 0.9712892, 0.74986595, 1)
-
-[node name="MarginContainer" type="MarginContainer" parent="ToolUI/Hbox/ColorRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="ToolUI/Hbox/ColorRect/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 10
-
-[node name="Save" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-theme_override_font_sizes/font_size = 34
-text = "Save"
-
-[node name="Load" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
-visible = false
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-theme_override_font_sizes/font_size = 34
-text = "Load
-"
-
-[node name="Erase" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-theme_override_font_sizes/font_size = 34
-text = "Erase
-"
-
-[node name="Draw" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-theme_override_font_sizes/font_size = 34
-text = "Draw
-"
-
-[node name="Generate" type="Button" parent="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-theme_override_font_sizes/font_size = 34
-text = "Generate
-"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ToolUI"]
 anchors_preset = 15
@@ -172,6 +124,20 @@ theme_override_font_sizes/font_size = 21
 text = "Import
 "
 
+[node name="Close" type="Button" parent="ToolUI/VBoxContainer/ToolBar"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_bottom = 60.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 30
+text = "X"
+script = ExtResource("3_yicra")
+
 [node name="Icons" type="ColorRect" parent="ToolUI/VBoxContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
@@ -191,6 +157,29 @@ size_flags_vertical = 0
 theme_override_constants/separation = 10
 
 [node name="MarginContainer" type="MarginContainer" parent="ToolUI/VBoxContainer/Icons/Icons"]
+layout_mode = 2
+
+[node name="Undo" type="TextureButton" parent="ToolUI/VBoxContainer/Icons/Icons"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("4_kle4y")
+texture_pressed = ExtResource("6_xdna4")
+texture_hover = ExtResource("5_j711j")
+stretch_mode = 6
+
+[node name="Redo" type="TextureButton" parent="ToolUI/VBoxContainer/Icons/Icons"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("4_kle4y")
+texture_pressed = ExtResource("6_xdna4")
+texture_hover = ExtResource("5_j711j")
+flip_h = true
+
+[node name="MarginContainer2" type="MarginContainer" parent="ToolUI/VBoxContainer/Icons/Icons"]
 layout_mode = 2
 
 [node name="Draw" type="Button" parent="ToolUI/VBoxContainer/Icons/Icons"]
@@ -400,7 +389,7 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker"]
 layout_mode = 2
 
-[node name="ColorPickerButton" type="ColorPickerButton" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer" node_paths=PackedStringArray("_valueLabel")]
+[node name="ColorPickerButton" type="ColorPickerButton" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer" node_paths=PackedStringArray("_valueLabel", "_burshIcon")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -412,6 +401,7 @@ edit_alpha = false
 edit_intensity = false
 script = ExtResource("3_4j37q")
 _valueLabel = NodePath("../Label")
+_burshIcon = NodePath("../../../../../../Brush")
 
 [node name="Label" type="Label" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer"]
 layout_mode = 2
@@ -519,6 +509,9 @@ theme_override_font_sizes/font_size = 21
 text = "0.0"
 horizontal_alignment = 1
 
+[node name="Brush" type="Node2D" parent="ToolUI"]
+script = ExtResource("1_xdna4")
+
 [node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_canvasManager", "_fileStrategyManager")]
 oversampling_override = 1.0
 initial_position = 2
@@ -559,6 +552,7 @@ SelectedIrregularity = 5
 SelectedWidth = 1
 SelectedColor = Color(1, 0, 0, 1)
 BackgroundColor = Color(1, 1, 1, 0)
+CanvasColor = Color(1, 1, 1, 1)
 MinZoom = 0.25
 MaxZoom = 2.0
 ZoomSpeed = 0.1
@@ -569,15 +563,19 @@ _colorPicker = NodePath("../ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/Col
 _generateUi = NodePath("../ToolUI/VBoxContainer/HBoxContainer/GenerateUI")
 _spikeSlider = NodePath("../ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/SpikeSlider")
 
-[connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Save" to="SaveFile" method="ShowWindow"]
-[connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Load" to="LoadFile" method="ShowWindow"]
-[connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Erase" to="StateMachine" method="OnEraseButtonPressed"]
-[connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Draw" to="StateMachine" method="OnDrawButtonPressed"]
-[connection signal="button_down" from="ToolUI/Hbox/ColorRect/MarginContainer/VBoxContainer/Generate" to="StateMachine" method="OnGenerateButtonPressed"]
+[connection signal="mouse_entered" from="CanvasManager" to="ToolUI/Brush" method="ShowBursh" binds= [true]]
+[connection signal="mouse_exited" from="CanvasManager" to="ToolUI/Brush" method="ShowBursh" binds= [false]]
 [connection signal="button_down" from="ToolUI/VBoxContainer/ToolBar/ToolBar/Save" to="SaveFile" method="ShowWindow"]
 [connection signal="button_down" from="ToolUI/VBoxContainer/ToolBar/ToolBar/Import" to="LoadFile" method="ShowWindow"]
+[connection signal="pressed" from="ToolUI/VBoxContainer/Icons/Icons/Undo" to="Inputmanager" method="Undo"]
+[connection signal="pressed" from="ToolUI/VBoxContainer/Icons/Icons/Redo" to="Inputmanager" method="Redo"]
 [connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Draw" to="StateMachine" method="OnDrawButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Draw" to="ToolUI/Brush" method="IsErasing" binds= [false]]
 [connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Erase" to="StateMachine" method="OnEraseButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Erase" to="ToolUI/Brush" method="IsErasing" binds= [true]]
 [connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Generate" to="StateMachine" method="OnGenerateButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Generate" to="ToolUI/Brush" method="CanShowBursh" binds= [false]]
+[connection signal="color_changed" from="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer/ColorPickerButton" to="ToolUI/Brush" method="_on_color_picker_button_color_changed"]
+[connection signal="focus_exited" from="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer/ColorPickerButton" to="ToolUI/Brush" method="SetColor"]
 [connection signal="file_selected" from="SaveFile" to="SaveFile" method="Save"]
 [connection signal="file_selected" from="LoadFile" to="LoadFile" method="Load"]

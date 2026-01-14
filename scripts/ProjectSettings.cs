@@ -24,7 +24,7 @@ public partial class ProjectSettings : Node
     
     [Export]public Color BackgroundColor { get; private set; }
     
-    
+    [Export] public Color CanvasColor { get; private set; }
     // zoom 
     [Export]public float MinZoom { get; private set; }
     [Export]public float MaxZoom { get; private set; }

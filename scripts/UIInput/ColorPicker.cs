@@ -3,6 +3,7 @@ using Godot;
 public partial class ColorPicker : ColorPickerButton
 {
     [Export] private Label _valueLabel;
+    [Export] BurshIcon _burshIcon;
 
     public override void _Ready()
     {
@@ -10,6 +11,7 @@ public partial class ColorPicker : ColorPickerButton
         
         ChangeValue(Color);
         ColorChanged += ChangeValue;
+        ColorChanged += _burshIcon.SetColor;
     }
 
     private void ChangeValue(Color color)
