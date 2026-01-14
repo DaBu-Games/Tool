@@ -1,7 +1,8 @@
-[gd_scene load_steps=24 format=3 uid="uid://m7utjirtdlvm"]
+[gd_scene load_steps=25 format=3 uid="uid://m7utjirtdlvm"]
 
 [ext_resource type="Script" uid="uid://6k7qtvohyhm8" path="res://scripts/MoveCamera.cs" id="1_gajqh"]
 [ext_resource type="Script" uid="uid://b60yd8jlabvjw" path="res://scripts/CanvasManager.cs" id="1_m650i"]
+[ext_resource type="Script" uid="uid://cu5wlh7hobho0" path="res://scripts/Drawing/BurshIcon.cs" id="1_xdna4"]
 [ext_resource type="Script" uid="uid://0guywnj1y3is" path="res://scripts/UIInput/ColorPicker.cs" id="3_4j37q"]
 [ext_resource type="Texture2D" uid="uid://ctw1dhtyg24am" path="res://Assets/points-icon.svg" id="3_cutrm"]
 [ext_resource type="Script" uid="uid://ov8yceev3kp7" path="res://scripts/Files/SaveFileDialog.cs" id="3_gajqh"]
@@ -388,7 +389,7 @@ theme_override_constants/margin_bottom = 10
 [node name="VBoxContainer" type="VBoxContainer" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker"]
 layout_mode = 2
 
-[node name="ColorPickerButton" type="ColorPickerButton" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer" node_paths=PackedStringArray("_valueLabel")]
+[node name="ColorPickerButton" type="ColorPickerButton" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer" node_paths=PackedStringArray("_valueLabel", "_burshIcon")]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -400,6 +401,7 @@ edit_alpha = false
 edit_intensity = false
 script = ExtResource("3_4j37q")
 _valueLabel = NodePath("../Label")
+_burshIcon = NodePath("../../../../../../Brush")
 
 [node name="Label" type="Label" parent="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer"]
 layout_mode = 2
@@ -507,6 +509,9 @@ theme_override_font_sizes/font_size = 21
 text = "0.0"
 horizontal_alignment = 1
 
+[node name="Brush" type="Node2D" parent="ToolUI"]
+script = ExtResource("1_xdna4")
+
 [node name="SaveFile" type="FileDialog" parent="." node_paths=PackedStringArray("_canvasManager", "_fileStrategyManager")]
 oversampling_override = 1.0
 initial_position = 2
@@ -547,6 +552,7 @@ SelectedIrregularity = 5
 SelectedWidth = 1
 SelectedColor = Color(1, 0, 0, 1)
 BackgroundColor = Color(1, 1, 1, 0)
+CanvasColor = Color(1, 1, 1, 1)
 MinZoom = 0.25
 MaxZoom = 2.0
 ZoomSpeed = 0.1
@@ -557,12 +563,19 @@ _colorPicker = NodePath("../ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/Col
 _generateUi = NodePath("../ToolUI/VBoxContainer/HBoxContainer/GenerateUI")
 _spikeSlider = NodePath("../ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/SpikeSlider")
 
+[connection signal="mouse_entered" from="CanvasManager" to="ToolUI/Brush" method="ShowBursh" binds= [true]]
+[connection signal="mouse_exited" from="CanvasManager" to="ToolUI/Brush" method="ShowBursh" binds= [false]]
 [connection signal="button_down" from="ToolUI/VBoxContainer/ToolBar/ToolBar/Save" to="SaveFile" method="ShowWindow"]
 [connection signal="button_down" from="ToolUI/VBoxContainer/ToolBar/ToolBar/Import" to="LoadFile" method="ShowWindow"]
 [connection signal="pressed" from="ToolUI/VBoxContainer/Icons/Icons/Undo" to="Inputmanager" method="Undo"]
 [connection signal="pressed" from="ToolUI/VBoxContainer/Icons/Icons/Redo" to="Inputmanager" method="Redo"]
 [connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Draw" to="StateMachine" method="OnDrawButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Draw" to="ToolUI/Brush" method="IsErasing" binds= [false]]
 [connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Erase" to="StateMachine" method="OnEraseButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Erase" to="ToolUI/Brush" method="IsErasing" binds= [true]]
 [connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Generate" to="StateMachine" method="OnGenerateButtonPressed"]
+[connection signal="button_down" from="ToolUI/VBoxContainer/Icons/Icons/Generate" to="ToolUI/Brush" method="CanShowBursh" binds= [false]]
+[connection signal="color_changed" from="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer/ColorPickerButton" to="ToolUI/Brush" method="_on_color_picker_button_color_changed"]
+[connection signal="focus_exited" from="ToolUI/VBoxContainer/HBoxContainer/VBoxContainer/ColorPicker/VBoxContainer/ColorPickerButton" to="ToolUI/Brush" method="SetColor"]
 [connection signal="file_selected" from="SaveFile" to="SaveFile" method="Save"]
 [connection signal="file_selected" from="LoadFile" to="LoadFile" method="Load"]
